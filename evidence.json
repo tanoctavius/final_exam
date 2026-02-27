@@ -4,7 +4,7 @@
         "paper_id": "P1",
         "support_level": "supports",
         "quote": "\"Each idea is implemented and developed into a full paper at a meager cost of less than $15 per paper...\" AND \"THE AI SCIENTIST, which generates novel research ideas, writes code, executes experiments, visualizes results, describes its findings by writing a full scientific paper...\" AND \"In principle, this process can be repeated to iteratively develop ideas in an open-ended fashion...\"",
-        "location": "Abstract / Section 1",
+        "location": "Abstract",
         "explanation": "Validates the under-$15 cost metric, the comprehensive paper generation workflow, and the iterative nature of the discovery framework."
     },
     {
