@@ -1,98 +1,100 @@
-# Personal Research Portal (Local RAG) - For Final Exam (Octavius Tan otan)
+# Personal Research Portal (Local RAG) - Final Exam (otan)
 
-Bcs this project utilizes a purely local architecture (`DeepSeek-R1` and `Llama 3.2` running via local Ollama instances), no external API keys, tokens, or internet connections are required. 
+This project utilizes a purely local architecture (`DeepSeek-R1` and `Llama 3.2` running via local Ollama instances). No external API keys, tokens, or internet connections are required for reproduction, supporting both **Offline** and **Replay** modes.
 
-- **External APIs:** None.
-- **Cache Files Included:** Local FAISS vector index (`data/vectorstore_llama/`) and BM25 index (`data/bm25_retriever.pkl`) generated during the ingestion phase.
+* 
+**External APIs:** None.
+
+
+* **Replay/Offline Support:** Supported. Graders do not need keys to run artifacts.
+
+Due to the assignment restrictions for submission, the file paths might be off. If you would like the full project, please visit the github page: https://github.com/tanoctavius/final_exam (has everything for the entire assignment)
 
 ## Command to Reproduce Artifacts
-To automatically rebuild `evidence.json` and `eval.json` from the provided claims, run:
+
+To automatically rebuild `evidence.json` and `eval.json` from the claims, run the following command:
+
 ```bash
-python generate_artifacts.py 
+python generate_artifacts.py --mode offline
 
-Included Cache & Index Files:
-To support the reproduction of the analysis, the following local artifacts are included in the otan-code.zip:
-data/vectorstore_llama/: The FAISS Dense Index containing vectorized paper chunks.
+```
 
-data/bm25_retriever.pkl: The BM25 Sparse Index for keyword-based retrieval.
+## Included Cache & Index Files
 
-logs/generation_cache.json: Cached LLM outputs for the evaluation suite.
+To support offline reproduction, the following local artifacts are included in the `otan-code.zip`:
 
-data/data_manifest.csv: The source-of-truth mapping for paper IDs (P1-P10) and citations.
+* `data/vectorstore_llama/`: FAISS Dense Index containing vectorized paper chunks.
+* `data/bm25_retriever.pkl`: BM25 Sparse Index for keyword-based retrieval.
+* `data/data_manifest.csv`: Source-of-truth mapping for paper IDs (P1-P10).
+* `claims.json`: Extracted research claims used as input for artifact generation.
 
 ## Prerequisites
 
-To run, you must have the following installed:
+1. 
+**Ollama**: Required to run local models (`llama3.2` and `nomic-embed-text`).
 
-1.  **Ollama**: This application runs the Large Language Model locally.
-    * Download from: https://ollama.com
-    * Verify installation by running `ollama --version` in your terminal.
-2.  **Python**: Version 3.10 or higher.
-3.  **Git**: To clone this repository.
 
-## Installation
+2. 
+**Python**: Version 3.10 or higher.
 
-### 1. Clone the Repository
 
-```bash
-git clone [https://github.com/tanoctavius/final_exam.git](https://github.com/tanoctavius/final_exam.git)
-cd final_exam
 
-```
+## Installation & Setup
 
-### 2. Install Dependencies
-If desired to replicate what was done during the exam. 
+### 1. Install Dependencies
 
 ```bash
-conda create -n final_exam python=3.10 -y
-conda activate final_exam
 pip install -r requirements.txt
+
 ```
 
-### 3. Pull the AI Models
-
-Open your terminal and run these commands to download Deepseek and the embedding model required for the vector database:
+### 2. Pull Local Models
 
 ```bash
-ollama pull deepseek-r1
 ollama pull llama3.2
 ollama pull nomic-embed-text
 
 ```
 
-## Configuration and Data Setup
+### 3. Execution Workflow
 
-### 1. Added the 10 files required for the exam into the data manifest file
+If you wish to re-run the entire pipeline from scratch, execute these in order:
 
-### 2. Build the Hybrid Database
-
-This script performs Semantic Chunking and builds both the FAISS (Vector) and BM25 (Keyword) indices.
-
-```bash
-python ingest.py
+1. 
+`python ingest.py`: Builds the hybrid search indices.
 
 
-## Project Structure
-
-```text
-.
-├── data/
-│   ├── raw/                  # Source PDFs
-│   ├── vectorstore_llama/    # FAISS Dense Index
-│   ├── bm25_retriever.pkl    # BM25 Sparse Index
-│   └── data_manifest.csv     # Citation Metadata
-├── logs/
-│   ├── rag_logs.csv          # Interaction history
-│   ├── generation_cache.json # Cached answers for Eval
-│   └── evaluation_results.csv# Final RAGAs scores
-├── src/
-│   └── app.py                # Phase 3 Streamlit Web UI
-├── ingest.py                 # Semantic + BM25 Ingestion
-├── rag_pipeline.py           # Engine (Hybrid + Rerank + Logging)
-├── generate_answers.py       # Eval Phase 1 (Generating)
-├── evaluation.py             # Eval Phase 2 (Grading)
-└── requirements.txt          # Pinned Dependency list
-```
+2. 
+`python extract_claims.py`: Generates the 10 core research claims (C1-C10).
 
 
-```
+3. 
+`python generate_artifacts.py --mode offline`: Produces the required `evidence.json` and `eval.json`.
+
+
+
+## Required Submission Files (Code ZIP)
+
+This submission contains the following strictly required files for grading:
+
+* 
+`evidence.json`: Verbatim quotes and explanations for all 10 claims.
+
+
+* 
+`eval.json`: Self-reported metrics and spot-checks.
+
+
+* 
+`prompts.md`: Log of major prompts used during the exam.
+
+
+* 
+`README.md`: This reproduction guide.
+
+
+* 
+`requirements.txt`: Minimal dependency list.
+
+
+---
