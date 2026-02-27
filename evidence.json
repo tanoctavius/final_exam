@@ -3,80 +3,80 @@
         "claim_id": "C01",
         "paper_id": "P1",
         "support_level": "supports",
-        "quote": "Each idea is implemented and developed into a full paper at a meager cost of less than $15 per paper, illustrating the potential for our framework to democratize research and significantly accelerate scientific progress.",
-        "location": "Abstract/Body (Auto-extracted)",
-        "explanation": "The Source Text supports the Claim by confirming the AI Scientist generates full papers for less than $15 each, validating the core cost metric."
+        "quote": "\"Each idea is implemented and developed into a full paper at a meager cost of less than $15 per paper...\" AND \"THE AI SCIENTIST, which generates novel research ideas, writes code, executes experiments, visualizes results, describes its findings by writing a full scientific paper...\" AND \"In principle, this process can be repeated to iteratively develop ideas in an open-ended fashion...\"",
+        "location": "Abstract / Section 1",
+        "explanation": "Validates the under-$15 cost metric, the comprehensive paper generation workflow, and the iterative nature of the discovery framework."
     },
     {
         "claim_id": "C02",
         "paper_id": "P2",
         "support_level": "supports",
-        "quote": "\"Aiming for tensile strength up to 1.5 GPa.\" and \"Low-temperature processing below 50°C, reducing energy consumption by 30%.\"",
-        "location": "Abstract/Body (Auto-extracted)",
-        "explanation": "The Source Text directly supports the Claim by explicitly mentioning the target tensile strength of 1.5 GPa and the 30% reduction in energy consumption."
+        "quote": "\"Aiming for tensile strength up to 1.5 GPa.\" AND \"Low-temperature processing below 50°C, reducing energy consumption by 30%.\"",
+        "location": "Case Study / Results",
+        "explanation": "Supports specific falsifiable targets for biological material synthesis and energy efficiency gains."
     },
     {
         "claim_id": "C03",
         "paper_id": "P3",
         "support_level": "supports",
-        "quote": "We modified PubMedQA to remove the provided context (so it is closed-book) and found PaperQA beats GPT-4 by 30 points (57.9% to 86.3%).",
-        "location": "Abstract/Body (Auto-extracted)",
-        "explanation": "The Source Text supports the performance metrics of the Claim, noting the 57.9% to 86.3% accuracy leap on the closed-book PubMedQA benchmark."
+        "quote": "\"We modified PubMedQA to remove the provided context (so it is closed-book) and found PaperQA beats GPT-4 by 30 points (57.9% to 86.3%).\" AND \"PaperQA is an agent that performs information retrieval across full-text scientific articles... and uses RAG to provide answers.\"",
+        "location": "Abstract / Methods",
+        "explanation": "Confirms the 30-point performance leap on closed-book benchmarks and identifies the RAG-based mechanism enabling these results."
     },
     {
         "claim_id": "C04",
         "paper_id": "P4",
         "support_level": "supports",
-        "quote": "GPT-4 fails systematically to provide factually accurate information (average score of 4.79 versus 9.25 of ChemCrow)...",
-        "location": "Abstract/Body (Auto-extracted)",
-        "explanation": "The Source Text supports the Claim by confirming the comparative average evaluation scores of 9.25 for ChemCrow and 4.79 for GPT-4."
+        "quote": "\"GPT-4 fails systematically to provide factually accurate information (average score of 4.79 versus 9.25 of ChemCrow)...\"",
+        "location": "Abstract",
+        "explanation": "Verifies the quantified superiority of ChemCrow over GPT-4 in factual chemical accuracy."
     },
     {
         "claim_id": "C05",
         "paper_id": "P5",
         "support_level": "supports",
-        "quote": "Given a filtering threshold $\\tau_f$, we thus only keep API calls for which $L_i^+ < L_i^-$ holds, i.e., adding the API call and its result reduces the loss by at least $\\tau_f$...",
-        "location": "Abstract/Body (Auto-extracted)",
-        "explanation": "The Source Text supports the Claim's methodological assertion regarding self-supervising API calls by filtering for reduced next-token cross-entropy loss."
+        "quote": "\"Given a filtering threshold $\\tau_f$, we thus only keep API calls for which $L_i^+ < L_i^-$ holds, i.e., adding the API call and its result reduces the loss by at least $\\tau_f$...\"",
+        "location": "Section 3.1",
+        "explanation": "Supports the methodological claim regarding self-supervised tool use through cross-entropy loss reduction."
     },
     {
         "claim_id": "C06",
         "paper_id": "P6",
         "support_level": "supports",
-        "quote": "Furthermore, on two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively, while being prompted with only one or two in-context examples.",
-        "location": "Abstract/Body (Auto-extracted)",
-        "explanation": "The Source Text directly and fully supports the Claim, confirming the exact absolute success rate improvements of 34% and 10% on the respective benchmarks."
+        "quote": "\"Furthermore, on two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively...\"",
+        "location": "Abstract",
+        "explanation": "Directly supports the success rate improvements on interactive decision-making benchmarks."
     },
     {
         "claim_id": "C07",
         "paper_id": "P7",
         "support_level": "supports",
-        "quote": "Reflexion achieves a 91% pass@1 accuracy on the HumanEval coding benchmark, surpassing the previous state-of-the-art GPT-4 that achieves 80%.",
-        "location": "Abstract/Body (Auto-extracted)",
-        "explanation": "The Source Text strongly supports the Claim by validating Reflexion's 91% pass@1 accuracy on HumanEval compared to GPT-4's baseline performance."
+        "quote": "\"Reflexion achieves a 91% pass@1 accuracy on the HumanEval coding benchmark, surpassing the previous state-of-the-art GPT-4 that achieves 80%.\"",
+        "location": "Abstract / Results",
+        "explanation": "Validates the performance improvement on HumanEval through linguistic feedback loops."
     },
     {
         "claim_id": "C08",
         "paper_id": "P8",
         "support_level": "supports",
-        "quote": "We find that current frontier models can improve on the given baselines, usually by finding better hyperparameters, but do not generate novel hypotheses, algorithms, architectures, or substantial improvements.",
-        "location": "Abstract/Body (Auto-extracted)",
-        "explanation": "The Source Text supports the Claim by corroborating that frontier models demonstrate baseline improvement capabilities without generating novel algorithms or architectures."
+        "quote": "\"We find that current frontier models can improve on the given baselines, usually by finding better hyperparameters, but do not generate novel hypotheses, algorithms, architectures...\" AND \"MLGYM-bench consists of 13 diverse and open-ended AI research tasks...\" AND \"As the field continues to evolve, improvements in long-context reasoning... will be essential...\"",
+        "location": "Abstract / Conclusion",
+        "explanation": "Corroborates that current agents are limited to optimization rather than structural algorithmic innovation across 13 open-ended tasks."
     },
     {
         "claim_id": "C09",
         "paper_id": "P9",
         "support_level": "supports",
-        "quote": "On technical knowledge probes such as LaTeX equations, Galactica outperforms the latest GPT-3 by 68.2% versus 49.0%.",
-        "location": "Abstract/Body (Auto-extracted)",
-        "explanation": "The Source Text directly supports the Claim, matching the precise benchmark scores of 68.2% for Galactica and 49.0% for GPT-3 on LaTeX equation probes."
+        "quote": "\"On technical knowledge probes such as LaTeX equations, Galactica outperforms the latest GPT-3 by 68.2% versus 49.0%.\"",
+        "location": "Abstract",
+        "explanation": "Directly validates the specific quantitative comparison between Galactica and GPT-3 on scientific technical probes."
     },
     {
         "claim_id": "C10",
         "paper_id": "P10",
         "support_level": "supports",
-        "quote": "Especially, we get 44.98%, 38.42% and 40.76% F1 score on BC5CDR, KD-DTI and DDI end-to-end relation extraction tasks respectively, and 78.2% accuracy on PubMedQA, creating a new record.",
-        "location": "Abstract/Body (Auto-extracted)",
-        "explanation": "The Source Text explicitly supports the Claim, verifying both the 78.2% accuracy on PubMedQA and the 44.98% F1 score on the BC5CDR task."
+        "quote": "\"Especially, we get 44.98%, 38.42% and 40.76% F1 score on BC5CDR, KD-DTI and DDI... and 78.2% accuracy on PubMedQA, creating a new record.\"",
+        "location": "Abstract",
+        "explanation": "Verifies the benchmark-specific F1 and accuracy records for BioGPT in the biomedical domain."
     }
 ]
