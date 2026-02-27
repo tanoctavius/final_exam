@@ -1,6 +1,5 @@
 import json
 import os
-import re
 from langchain_community.vectorstores import FAISS
 from langchain_ollama import ChatOllama, OllamaEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
@@ -11,7 +10,6 @@ EMBEDDING_MODEL = "nomic-embed-text"
 def extract_claims():
     print("Initializing Claim Extractor...")
     
-    # 1. Direct FAISS Load: Bypass the Cross-Encoder to prevent target chunks from being filtered out.
     if not os.path.exists(INDEX_PATH):
         raise FileNotFoundError(f"FAISS index not found at {INDEX_PATH}. Run ingest.py first.")
         
@@ -19,10 +17,10 @@ def extract_claims():
     embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL)
     vectorstore = FAISS.load_local(INDEX_PATH, embeddings, allow_dangerous_deserialization=True)
     
-    # 2. Model Sync: Matches the parameters defined in your generate_answers.py
-    llm = ChatOllama(model="deepseek-r1", temperature=0, num_ctx=8192, timeout=600.0)
+    # FIX 1: Swap to Llama 3.2 for massive speed improvements over DeepSeek-R1
+    # Reduced num_ctx since we are pre-filtering chunks
+    llm = ChatOllama(model="llama3.2", temperature=0, num_ctx=4096, timeout=120.0)
     
-    # 3. Rubric Alignment: Forces the falsifiable, 1-sentence structure needed for maximum points
     system_prompt = """
     You are a rigorously graded Senior Research Scientist. Your task is to extract EXACTLY ONE specific, falsifiable claim from the provided context.
     
@@ -36,45 +34,56 @@ def extract_claims():
     
     prompt_template = ChatPromptTemplate.from_messages([
         ("system", system_prompt),
-        ("user", "Paper ID: {paper_id}\nContext: {context}\n\nExtract a strong, falsifiable claim for this paper.")
+        ("user", "Context:\n{context}\n\nExtract a strong, falsifiable claim for this paper.")
     ])
     chain = prompt_template | llm
     
     claims_output = {}
     
+    # Pre-fetch all documents from FAISS to do manual, robust filtering
+    all_docs = list(vectorstore.docstore._dict.values())
+    
     for i in range(1, 11):
         paper_id = f"P{i}"
         print(f"Extracting claim for {paper_id}...")
         
-        # 4. Strict Metadata Filtering: Guarantees context is exclusively from the target paper
-        retriever = vectorstore.as_retriever(
-            search_kwargs={"k": 5, "filter": {"source_id": paper_id}}
-        )
+        # FIX 2: Case-insensitive, whitespace-stripped filtering bypasses FAISS exact-match errors
+        paper_docs = [d for d in all_docs if str(d.metadata.get('source_id', '')).strip().upper() == paper_id]
         
-        # Broad keywords to grab methodology and results chunks
-        docs = retriever.invoke("quantitative results metrics methods findings conclusion")
-        context = "\n".join([d.page_content for d in docs])
-        
-        if not context:
-            print(f"Warning: No context found for {paper_id}. Ensure your data_manifest.csv source_ids match exactly.")
+        if not paper_docs:
+            print(f"  -> ERROR: No context found for {paper_id}. If this persists, the PDF failed to load during ingest.py.")
             continue
             
-        raw_response = chain.invoke({"paper_id": paper_id, "context": context}).content
+        # Sort by length to grab the most substantive chunks for methodology/results
+        paper_docs.sort(key=lambda x: len(x.page_content), reverse=True)
+        top_docs = paper_docs[:3] 
         
-        # 5. Regex Sync: Implements the exact DeepSeek tag scrubber from generate_answers.py
-        clean_claim = re.sub(r'<think>.*?</think>', '', raw_response, flags=re.DOTALL).strip()
+        context = "\n".join([d.page_content for d in top_docs])
         
-        # Fallback cleanup just in case DeepSeek ignores the "no filler" system prompt
+        raw_response = chain.invoke({"context": context}).content
+        
+        # Clean up the response
+        clean_claim = raw_response.strip()
         if clean_claim.lower().startswith("here is"):
             clean_claim = clean_claim.split(":", 1)[-1].strip()
             
         claims_output[f"C{i}"] = clean_claim
         print(f"  -> Extracted: {clean_claim[:60]}...")
 
+    # Output the required artifacts
     with open("claims.json", "w") as f:
         json.dump(claims_output, f, indent=4)
         
-    print(f"\nSuccess! 10 claims saved to claims.json. Ready for generate_artifacts.py.")
+    # Generate the Markdown table for easy copy-pasting into paper.docx
+    with open("claims_table.md", "w") as f:
+        f.write("| claim id | claim text | paper_ids_used |\n")
+        f.write("|---|---|---|\n")
+        for i in range(1, 11):
+            c_id = f"C{i}"
+            p_id = f"P{i}"
+            f.write(f"| {c_id} | {claims_output.get(c_id, 'CLAIM MISSING - Check ingest') } | [{p_id}] |\n")
+            
+    print(f"\nSuccess! Claims saved to claims.json and claims_table.md.")
 
 if __name__ == "__main__":
     extract_claims()
