@@ -1,0 +1,31 @@
+# --- Core RAG Stack ---
+langchain==0.3.0
+langchain-community==0.3.0
+langchain-core==0.3.0
+langchain-ollama==0.2.0
+langchain-text-splitters==0.3.0
+faiss-cpu
+pypdf
+pandas
+numpy<2.0.0
+
+# --- Stretch Goal 1: Hybrid Retrieval ---
+rank_bm25
+
+# --- Stretch Goal 2: Reranking ---
+sentence-transformers
+torch
+transformers>=4.39.0
+
+# --- Stretch Goal 3: Semantic Chunking ---
+langchain-experimental
+scikit-learn
+
+# --- Stretch Goal 5: RAGAs Evaluation ---
+ragas>=0.2.0
+datasets
+
+# Phase 3: 
+streamlit>=1.30.0
+plotly
+networkx
